@@ -36,12 +36,12 @@ Check https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html
 before applying and update this default accordingly.
 EOT
   type        = string
-  default     = "1.29" # <-- VERIFY against the current EKS lifecycle table before applying
+  default     = "1.31" # <-- VERIFY against the current EKS lifecycle table before applying
 }
 variable "node_instance_types" {
   description = "EC2 instance types for the EKS managed node group."
   type        = list(string)
-  default     = ["t3.medium"]
+  default     = ["t3.small"]
 }
 variable "node_group_desired_size" {
   type    = number
