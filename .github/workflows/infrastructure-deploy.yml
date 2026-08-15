@@ -200,19 +200,18 @@ jobs:
             -backend-config="key=project-bedrock/terraform.tfstate" \
             -backend-config="region=${{ env.AWS_REGION }}"
 
-      - name: Create tfvars
-        run: |
+
+          - name: Create tfvars
+          run: |
           python3 -c "
           content = '''
           aws_region         = \"us-east-1\"
           project_name       = \"project-bedrock\"
-          cluster_name = \"project-bedrock-cluster\"
-          student_id   = \"${{ secrets.STUDENT_ID }}\"
-          vpc_cidr     = \"10.20.0.0/16\"
-          azs          = [\"us-east-1a\", \"us-east-1b\"]
+          cluster_name       = \"project-bedrock-cluster\"
+          student_id         = \"${{ secrets.STUDENT_ID }}\"
+          vpc_cidr           = \"10.20.0.0/16\"
+          azs                = [\"us-east-1a\", \"us-east-1b\"]
+          budget_alert_email = \"${{ secrets.BUDGET_ALERT_EMAIL }}\"
           '''
           open('terraform.tfvars', 'w').write(content)
           "
-
-      - name: Destroy
-        run: terraform destroy -var-file=terraform.tfvars -auto-approve
