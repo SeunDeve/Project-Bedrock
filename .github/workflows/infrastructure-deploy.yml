@@ -200,9 +200,8 @@ jobs:
             -backend-config="key=project-bedrock/terraform.tfstate" \
             -backend-config="region=${{ env.AWS_REGION }}"
 
-
-          - name: Create tfvars
-          run: |
+      - name: Create tfvars
+        run: |
           python3 -c "
           content = '''
           aws_region         = \"us-east-1\"
@@ -215,3 +214,6 @@ jobs:
           '''
           open('terraform.tfvars', 'w').write(content)
           "
+
+      - name: Destroy
+        run: terraform destroy -var-file=terraform.tfvars -auto-approve
