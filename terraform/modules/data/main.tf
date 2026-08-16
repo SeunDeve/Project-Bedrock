@@ -110,3 +110,16 @@ resource "aws_budgets_budget" "this" {
     subscriber_email_addresses = [var.budget_alert_email]
   }
 }
+
+resource "aws_secretsmanager_secret" "db" {
+  name = "project-bedrock/mysql" # match whatever name your app pipeline expects — confirm exact string
+}
+
+resource "aws_secretsmanager_secret_version" "db" {
+  secret_id = aws_secretsmanager_secret.db.id
+  secret_string = jsonencode({
+    host     = aws_db_instance.this.address
+    username = aws_db_instance.this.username
+    password = random_password.db.result
+  })
+}
