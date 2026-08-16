@@ -60,3 +60,22 @@ resource "kubernetes_service_account" "lb_controller" {
 output "lb_controller_role_arn" {
   value = aws_iam_role.lb_controller.arn
 }
+
+resource "kubernetes_service_account" "lb_controller" {
+  metadata {
+    name      = "aws-load-balancer-controller"
+    namespace = "kube-system"
+    labels = {
+      "app.kubernetes.io/name"       = "aws-load-balancer-controller"
+      "app.kubernetes.io/component"  = "controller"
+      "app.kubernetes.io/managed-by" = "Helm"
+    }
+    annotations = {
+      "eks.amazonaws.com/role-arn"     = aws_iam_role.lb_controller.arn
+      "meta.helm.sh/release-name"      = "aws-load-balancer-controller"
+      "meta.helm.sh/release-namespace" = "kube-system"
+    }
+  }
+
+  depends_on = [aws_eks_node_group.default]
+}
