@@ -112,7 +112,7 @@ resource "aws_budgets_budget" "this" {
 }
 
 resource "aws_secretsmanager_secret" "db" {
-  name = "project-bedrock/mysql"  # match whatever name your app pipeline expects — confirm exact string
+  name = "project-bedrock/mysql" # match whatever name your app pipeline expects — confirm exact string
 }
 
 resource "aws_secretsmanager_secret_version" "db" {
