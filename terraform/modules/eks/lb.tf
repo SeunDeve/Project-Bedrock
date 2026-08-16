@@ -41,25 +41,6 @@ resource "aws_iam_role_policy_attachment" "lb_controller" {
 }
 
 # ── Kubernetes ServiceAccount, annotated with the IAM role ARN (IRSA) ──
-resource "kubernetes_service_account" "lb_controller" {
-  metadata {
-    name      = "aws-load-balancer-controller"
-    namespace = "kube-system"
-    labels = {
-      "app.kubernetes.io/name"      = "aws-load-balancer-controller"
-      "app.kubernetes.io/component" = "controller"
-    }
-    annotations = {
-      "eks.amazonaws.com/role-arn" = aws_iam_role.lb_controller.arn
-    }
-  }
-
-  depends_on = [aws_eks_node_group.default]
-}
-
-output "lb_controller_role_arn" {
-  value = aws_iam_role.lb_controller.arn
-}
 
 resource "kubernetes_service_account" "lb_controller" {
   metadata {
