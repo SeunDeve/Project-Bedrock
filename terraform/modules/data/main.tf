@@ -123,3 +123,15 @@ resource "aws_secretsmanager_secret_version" "db" {
     password = random_password.db.result
   })
 }
+resource "aws_secretsmanager_secret" "db_orders" {
+  name = "project-bedrock/postgresql"
+}
+
+resource "aws_secretsmanager_secret_version" "db_orders" {
+  secret_id = aws_secretsmanager_secret.db_orders.id
+  secret_string = jsonencode({
+    host     = aws_db_instance.this.address
+    username = aws_db_instance.this.username
+    password = random_password.db.result
+  })
+}
