@@ -1,6 +1,6 @@
 # ── S3 bucket for assets ──
 resource "aws_s3_bucket" "assets" {
-  bucket = "bedrock-assets-${var.student_id}"
+  bucket = "bedrock-assets-${lower(replace(var.student_id, "/[^a-zA-Z0-9-]/", ""))}"
 }
 
 resource "aws_s3_bucket_public_access_block" "assets" {
